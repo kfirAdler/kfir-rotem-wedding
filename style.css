@@ -297,6 +297,7 @@ figcaption {
 }
 .ig-msg {
   max-width: 78%; padding: .55em .95em; font-size: 1.02rem; line-height: 1.4;
+  direction: rtl; text-align: right;
   border-radius: 20px; display: none; opacity: 0; transform: translateY(14px); will-change: transform, opacity;
 }
 /* received (רותם) — grey, on the start (right in RTL) */
