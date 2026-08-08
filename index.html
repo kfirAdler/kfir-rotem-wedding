@@ -21,7 +21,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="style.css?v=17" />
+    <link rel="stylesheet" href="style.css?v=18" />
   </head>
   <body>
     <!-- Progress bar tied to scroll -->
@@ -29,7 +29,7 @@
       <span id="progressBar"></span>
     </div>
 
-    <!-- Floating ambient shapes (hand-drawn flowers / hearts) rendered once, parallaxed on scroll -->
+    <!-- Fixed ambient branches; only the flower heads rotate with scroll -->
     <div class="ambient" aria-hidden="true">
       <span class="ambient-mover ambient-mover--flower-1">
       <svg class="flower flower-1" viewBox="0 0 140 220">
@@ -41,8 +41,9 @@
         <path class="s-leaf" d="M94 114 C 106 120, 120 116, 126 104 C 112 98, 100 104, 94 114 Z" />
         <path class="s-leaf" d="M66 206 C 50 206, 38 196, 38 182 C 52 186, 62 194, 66 206 Z" />
         <ellipse class="bud" cx="32" cy="128" rx="5.5" ry="9" transform="rotate(-35 32 128)" />
-        <g class="petals" transform="translate(70 52)">
-          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" />
+        <g class="flower-head-position" transform="translate(70 52)">
+          <g class="petals petal-rotor">
+          <ellipse class="petal-accent" cx="0" cy="-16" rx="6.5" ry="12.5" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(45)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(90)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(135)" />
@@ -51,9 +52,12 @@
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(270)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(315)" />
           <circle class="core" r="7.5" />
+          <circle class="core-glint" cx="-2.4" cy="-2.2" r="1.7" />
+          </g>
         </g>
-        <g class="petals" transform="translate(114 74) scale(.68)">
-          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" />
+        <g class="flower-head-position" transform="translate(114 74) scale(.68)">
+          <g class="petals petal-rotor">
+          <ellipse class="petal-accent" cx="0" cy="-16" rx="6.5" ry="12.5" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(45)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(90)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(135)" />
@@ -62,6 +66,8 @@
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(270)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(315)" />
           <circle class="core" r="7.5" />
+          <circle class="core-glint" cx="-2.4" cy="-2.2" r="1.7" />
+          </g>
         </g>
       </svg>
       </span>
@@ -75,8 +81,9 @@
         <path class="s-leaf" d="M94 114 C 106 120, 120 116, 126 104 C 112 98, 100 104, 94 114 Z" />
         <path class="s-leaf" d="M66 206 C 50 206, 38 196, 38 182 C 52 186, 62 194, 66 206 Z" />
         <ellipse class="bud" cx="32" cy="128" rx="5.5" ry="9" transform="rotate(-35 32 128)" />
-        <g class="petals" transform="translate(70 52)">
-          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" />
+        <g class="flower-head-position" transform="translate(70 52)">
+          <g class="petals petal-rotor">
+          <ellipse class="petal-accent" cx="0" cy="-16" rx="6.5" ry="12.5" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(45)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(90)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(135)" />
@@ -85,9 +92,12 @@
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(270)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(315)" />
           <circle class="core" r="7.5" />
+          <circle class="core-glint" cx="-2.4" cy="-2.2" r="1.7" />
+          </g>
         </g>
-        <g class="petals" transform="translate(114 74) scale(.68)">
-          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" />
+        <g class="flower-head-position" transform="translate(114 74) scale(.68)">
+          <g class="petals petal-rotor">
+          <ellipse class="petal-accent" cx="0" cy="-16" rx="6.5" ry="12.5" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(45)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(90)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(135)" />
@@ -96,6 +106,8 @@
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(270)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(315)" />
           <circle class="core" r="7.5" />
+          <circle class="core-glint" cx="-2.4" cy="-2.2" r="1.7" />
+          </g>
         </g>
       </svg>
       </span>
@@ -116,8 +128,9 @@
         <path class="s-leaf" d="M94 114 C 106 120, 120 116, 126 104 C 112 98, 100 104, 94 114 Z" />
         <path class="s-leaf" d="M66 206 C 50 206, 38 196, 38 182 C 52 186, 62 194, 66 206 Z" />
         <ellipse class="bud" cx="32" cy="128" rx="5.5" ry="9" transform="rotate(-35 32 128)" />
-        <g class="petals" transform="translate(70 52)">
-          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" />
+        <g class="flower-head-position" transform="translate(70 52)">
+          <g class="petals petal-rotor">
+          <ellipse class="petal-accent" cx="0" cy="-16" rx="6.5" ry="12.5" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(45)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(90)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(135)" />
@@ -126,9 +139,12 @@
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(270)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(315)" />
           <circle class="core" r="7.5" />
+          <circle class="core-glint" cx="-2.4" cy="-2.2" r="1.7" />
+          </g>
         </g>
-        <g class="petals" transform="translate(114 74) scale(.68)">
-          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" />
+        <g class="flower-head-position" transform="translate(114 74) scale(.68)">
+          <g class="petals petal-rotor">
+          <ellipse class="petal-accent" cx="0" cy="-16" rx="6.5" ry="12.5" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(45)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(90)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(135)" />
@@ -137,6 +153,8 @@
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(270)" />
           <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(315)" />
           <circle class="core" r="7.5" />
+          <circle class="core-glint" cx="-2.4" cy="-2.2" r="1.7" />
+          </g>
         </g>
       </svg>
       </span>
@@ -215,8 +233,8 @@
     <!-- divider: rotating flowers -->
     <div class="divider d-leaves" aria-hidden="true">
       <svg class="dv-flower" viewBox="0 0 100 100">
-        <g class="petals">
-          <ellipse cx="50" cy="27" rx="10" ry="19" />
+        <g class="petals divider-rotor">
+          <ellipse class="petal-accent" cx="50" cy="27" rx="10" ry="19" />
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(45 50 50)" />
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(90 50 50)" />
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(135 50 50)" />
@@ -224,12 +242,13 @@
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(225 50 50)" />
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(270 50 50)" />
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(315 50 50)" />
+          <circle class="core" cx="50" cy="50" r="11" />
+          <circle class="core-glint" cx="46.5" cy="46.5" r="2.3" />
         </g>
-        <circle class="core" cx="50" cy="50" r="11" />
       </svg>
       <svg class="dv-flower" viewBox="0 0 100 100">
-        <g class="petals">
-          <ellipse cx="50" cy="27" rx="10" ry="19" />
+        <g class="petals divider-rotor">
+          <ellipse class="petal-accent" cx="50" cy="27" rx="10" ry="19" />
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(45 50 50)" />
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(90 50 50)" />
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(135 50 50)" />
@@ -237,12 +256,13 @@
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(225 50 50)" />
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(270 50 50)" />
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(315 50 50)" />
+          <circle class="core" cx="50" cy="50" r="11" />
+          <circle class="core-glint" cx="46.5" cy="46.5" r="2.3" />
         </g>
-        <circle class="core" cx="50" cy="50" r="11" />
       </svg>
       <svg class="dv-flower" viewBox="0 0 100 100">
-        <g class="petals">
-          <ellipse cx="50" cy="27" rx="10" ry="19" />
+        <g class="petals divider-rotor">
+          <ellipse class="petal-accent" cx="50" cy="27" rx="10" ry="19" />
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(45 50 50)" />
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(90 50 50)" />
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(135 50 50)" />
@@ -250,8 +270,9 @@
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(225 50 50)" />
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(270 50 50)" />
           <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(315 50 50)" />
+          <circle class="core" cx="50" cy="50" r="11" />
+          <circle class="core-glint" cx="46.5" cy="46.5" r="2.3" />
         </g>
-        <circle class="core" cx="50" cy="50" r="11" />
       </svg>
     </div>
 
@@ -266,7 +287,14 @@
         </p>
         <!-- photo slot -->
         <figure class="photo-slot reveal">
-          <img src="assets/street-selfie.jpg" alt="כפיר ורותם" loading="lazy" />
+          <img
+            src="assets/street-selfie.jpg"
+            width="1536"
+            height="2048"
+            alt="כפיר ורותם"
+            loading="lazy"
+            decoding="async"
+          />
           <figcaption>ספוילר: כמה שנים אחרי</figcaption>
         </figure>
       </div>
@@ -318,7 +346,7 @@
         <div class="li-post reveal" dir="ltr" aria-hidden="true">
           <div class="li-top">
             <span class="li-pic"
-              ><img src="assets/kfir-headshot.jpg" alt="Kfir Adler"
+              ><img src="assets/kfir-headshot.jpg" width="1351" height="2048" alt="Kfir Adler"
             /></span>
             <span class="li-id">
               <span class="li-name"
@@ -456,7 +484,14 @@
           </div>
         </div>
         <figure class="photo-slot reveal">
-          <img src="assets/walking2.jpeg" alt="כפיר ורותם" loading="lazy" />
+          <img
+            src="assets/walking2.jpeg"
+            width="1600"
+            height="1066"
+            alt="כפיר ורותם"
+            loading="lazy"
+            decoding="async"
+          />
           <figcaption>ומאז - יחד</figcaption>
         </figure>
       </div>
@@ -509,8 +544,11 @@
         <figure class="comics-slot reveal">
           <img
             src="assets/comics.png"
+            width="864"
+            height="1821"
             alt="קומיקס: איך מתכננים הצעה בין אזעקות"
             loading="lazy"
+            decoding="async"
           />
         </figure>
         <p class="reveal proposal-lead">
@@ -537,7 +575,14 @@
     <section class="scene finale" id="finale">
       <div class="finale-inner">
         <figure class="finale-photo reveal">
-          <img src="assets/formal.jpg" alt="כפיר ורותם" loading="lazy" />
+          <img
+            src="assets/formal.jpg"
+            width="1066"
+            height="1600"
+            alt="כפיר ורותם"
+            loading="lazy"
+            decoding="async"
+          />
         </figure>
         <p class="eyebrow reveal">והיום</p>
         <h2 class="finale-title reveal">הם כמעט נשואים.</h2>
@@ -662,6 +707,6 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <script src="script.js?v=13"></script>
+    <script src="script.js?v=14"></script>
   </body>
 </html>

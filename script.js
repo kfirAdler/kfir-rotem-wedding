@@ -119,7 +119,7 @@ if (!reduceMotion) {
       y: 0,
       duration: 1,
       ease: "power3.out",
-      scrollTrigger: { trigger: el, start: "top 82%", toggleActions: "play none none reverse" },
+      scrollTrigger: { trigger: el, start: "top 90%", toggleActions: "play none none reverse" },
     });
   });
 
@@ -131,95 +131,54 @@ if (!reduceMotion) {
     scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
   });
 
-  /* ---------- 4. ambient shapes — multi-direction drift across the whole story ---------- */
-  const ambientDrift = [
-    [".ambient-mover--flower-1", [
-      [0.09, -0.16, 14], [-0.07, 0.13, -11], [0.11, -0.09, 17], [-0.04, 0.18, -8], [0.08, -0.13, 13],
-    ]],
-    [".ambient-mover--flower-2", [
-      [-0.08, 0.14, -12], [0.10, -0.18, 15], [-0.06, 0.10, -9], [0.08, -0.15, 12], [-0.04, 0.12, -7],
-    ]],
-    [".ambient-mover--flower-3", [
-      [0.06, -0.12, 10], [-0.10, 0.17, -14], [0.08, -0.08, 13], [-0.05, 0.15, -9], [0.09, -0.11, 12],
-    ]],
-    [".ambient-mover--heart-1", [
-      [-0.05, 0.10, -9], [0.07, -0.14, 11], [-0.04, 0.09, -7], [0.06, -0.12, 10], [-0.03, 0.08, -6],
-    ]],
-    [".ambient-mover--heart-2", [
-      [0.06, -0.10, 9], [-0.05, 0.15, -11], [0.07, -0.08, 10], [-0.06, 0.13, -9], [0.04, -0.11, 7],
-    ]],
-  ];
-
+  /* ---------- 4. flower heads rotate in place, directly tied to page scroll ---------- */
   const decorativeMotion = gsap.matchMedia();
   decorativeMotion.add({
     isPhone: "(max-width: 640px)",
-    reduceDecorativeMotion: "(prefers-reduced-motion: reduce)",
+    allowDecorativeMotion: "(prefers-reduced-motion: no-preference)",
   }, (context) => {
-    const { isPhone, reduceDecorativeMotion } = context.conditions;
-    if (reduceDecorativeMotion) return;
+    const { isPhone, allowDecorativeMotion } = context.conditions;
+    if (!allowDecorativeMotion) return;
 
-    // Hidden mobile decorations do no animation work and rejoin after an orientation change.
-    const activeDrift = isPhone
-      ? ambientDrift.filter(([selector]) => !selector.endsWith("flower-2") && !selector.endsWith("heart-2"))
-      : ambientDrift;
+    const allRotors = gsap.utils.toArray(".ambient .petal-rotor");
+    const rotationDegrees = [720, -900, -630, 810, 990, -720];
+    const visibleRotors = isPhone
+      ? allRotors.filter((rotor) => getComputedStyle(rotor.closest(".ambient-mover")).display !== "none")
+      : allRotors;
 
-    activeDrift.forEach(([selector, points]) => {
-      const timeline = gsap.timeline({
-        defaults: { duration: 1, ease: "sine.inOut" },
-        scrollTrigger: {
-          trigger: "body",
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 1.35,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      points.forEach(([xViewport, yViewport, rotation]) => {
-        timeline.to(selector, {
-          x: () => window.innerWidth * xViewport,
-          y: () => window.innerHeight * yViewport * (window.innerWidth <= 640 ? 0.72 : 1),
-          rotation,
-          force3D: true,
-        });
-      });
+    const rotorTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: "body",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.45,
+        invalidateOnRefresh: true,
+      },
     });
-
-    // Each flower head turns around its own centre, slowly and in alternating directions.
-    const ambientPetalSelector = isPhone
-      ? ".ambient-mover:not(.ambient-mover--flower-2) .petals"
-      : ".ambient .petals";
-    gsap.utils.toArray(ambientPetalSelector).forEach((petals, index) => {
-      const baseTransform = petals.getAttribute("transform") || "";
-      const turn = index % 2 ? -360 : 360;
-      gsap.fromTo(
-        petals,
-        { attr: { transform: `${baseTransform} rotate(0)` } },
-        {
-          attr: { transform: `${baseTransform} rotate(${turn})` },
-          duration: 30 + (index % 3) * 7,
-          repeat: -1,
-          ease: "none",
-        }
+    visibleRotors.forEach((rotor) => {
+      const rotation = rotationDegrees[allRotors.indexOf(rotor)];
+      rotorTimeline.fromTo(
+        rotor,
+        { attr: { transform: "rotate(0)" } },
+        { attr: { transform: `rotate(${rotation})` }, duration: 1, ease: "none" },
+        0
       );
     });
 
-    // The smaller flowers between chapters spin only while their divider is visible.
-    gsap.utils.toArray(".d-leaves .petals").forEach((petals, index) => {
-      const turn = index % 2 ? -360 : 360;
+    // Divider flowers stay fixed too; only their heads rotate as they enter.
+    gsap.utils.toArray(".divider-rotor").forEach((rotor, index) => {
+      const rotation = index % 2 ? -180 : 180;
       gsap.fromTo(
-        petals,
+        rotor,
         { attr: { transform: "rotate(0 50 50)" } },
         {
-          attr: { transform: `rotate(${turn} 50 50)` },
-          duration: 32 + index * 5,
-          repeat: -1,
+          attr: { transform: `rotate(${rotation} 50 50)` },
           ease: "none",
           scrollTrigger: {
-            trigger: petals.closest(".divider"),
-            start: "top bottom",
-            end: "bottom top",
-            toggleActions: "play pause resume pause",
+            trigger: rotor.closest(".dv-flower"),
+            start: "top 92%",
+            end: "bottom 38%",
+            scrub: 0.45,
           },
         }
       );
@@ -241,9 +200,9 @@ if (!reduceMotion) {
       stagger: 0.15,
       scrollTrigger: {
         trigger: container,
-        // let the ribbon scroll into view first, then draw as it passes through the middle
-        start: "top 58%",
-        end: opts.end || "top 12%",
+        // begin near the viewport edge so the drawing is visible from its first stroke
+        start: "top 82%",
+        end: opts.end || "top 28%",
         scrub: true,
       },
     });
@@ -283,7 +242,7 @@ if (!reduceMotion) {
     p.style.strokeDashoffset = len;
   });
   const mergeTl = gsap.timeline({
-    scrollTrigger: { trigger: mergeSel, start: "top 58%", end: "bottom 42%", scrub: true },
+    scrollTrigger: { trigger: mergeSel, start: "top 82%", end: "bottom 45%", scrub: true },
   });
   mergeTl
     .to(`${mergeSel} .path-groom, ${mergeSel} .path-bride`, { strokeDashoffset: 0, ease: "none" })
@@ -294,21 +253,21 @@ if (!reduceMotion) {
     scale: 0,
     rotation: -30,
     ease: "back.out(1.7)",
-    scrollTrigger: { trigger: ".heart-seal", start: "top 80%", toggleActions: "play none none reverse" },
+    scrollTrigger: { trigger: ".heart-seal", start: "top 90%", toggleActions: "play none none reverse" },
   });
 
   /* ---------- 7. LinkedIn "liked your post" notification pops in ---------- */
   gsap.from(".li-toast", {
     y: 24, opacity: 0, scale: 0.85, duration: 0.6, ease: "back.out(2)",
-    scrollTrigger: { trigger: ".li-toast", start: "top 88%", toggleActions: "play none none reverse" },
+    scrollTrigger: { trigger: ".li-toast", start: "top 92%", toggleActions: "play none none reverse" },
   });
   gsap.fromTo(".li-toast-ic", { scale: 0 }, {
     scale: 1, duration: 0.5, delay: 0.35, ease: "back.out(2.6)",
-    scrollTrigger: { trigger: ".li-toast", start: "top 88%", toggleActions: "play none none reverse" },
+    scrollTrigger: { trigger: ".li-toast", start: "top 92%", toggleActions: "play none none reverse" },
   });
   // a tiny spark catches fire on the toast's corner right after the like lands
   const sparkTl = gsap.timeline({
-    scrollTrigger: { trigger: ".li-toast", start: "top 88%", toggleActions: "play none none reverse" },
+    scrollTrigger: { trigger: ".li-toast", start: "top 92%", toggleActions: "play none none reverse" },
   });
   sparkTl
     .set(".li-spark", { opacity: 1 }, 0.6)
@@ -333,7 +292,7 @@ if (!reduceMotion) {
     if (!body) return;
     const nodes = Array.from(body.children); // typing, msg, typing, msg, ...
     const tl = gsap.timeline({
-      scrollTrigger: { trigger: ".ig-dm", start: "top 68%", toggleActions: "play none none none" },
+      scrollTrigger: { trigger: ".ig-dm", start: "top 84%", toggleActions: "play none none none" },
     });
     for (let i = 0; i < nodes.length; i += 2) {
       const typing = nodes[i];
@@ -393,7 +352,7 @@ if (!reduceMotion) {
         letterSpacing: "0.12em",
         scale: 1,
         ease: "none",
-        scrollTrigger: { trigger: el, start: "top 90%", end: "top 40%", scrub: 1 },
+        scrollTrigger: { trigger: el, start: "top 92%", end: "top 40%", scrub: 1 },
       }
     );
   });
@@ -402,24 +361,15 @@ if (!reduceMotion) {
   // line + heart draw open
   gsap.utils.toArray(".d-line").forEach((d) => {
     gsap
-      .timeline({ scrollTrigger: { trigger: d, start: "top 85%", end: "bottom 55%", scrub: true } })
+      .timeline({ scrollTrigger: { trigger: d, start: "top 92%", end: "bottom 55%", scrub: true } })
       .fromTo(d.querySelectorAll(".dl-line"), { width: 0 }, { width: 80, ease: "none" }, 0)
       .fromTo(d.querySelector(".dl-heart"), { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, ease: "back.out(2)" }, 0.15);
-  });
-  // flowers rotate at different rates
-  gsap.utils.toArray(".d-leaves").forEach((d) => {
-    d.querySelectorAll(".dv-flower").forEach((leaf, i) => {
-      gsap.fromTo(leaf, { rotation: -60 + i * 20 }, {
-        rotation: 60 + i * 20, ease: "none",
-        scrollTrigger: { trigger: d, start: "top bottom", end: "bottom top", scrub: true },
-      });
-    });
   });
   // heart blooms open
   gsap.utils.toArray(".d-bloom .db-heart").forEach((h) => {
     gsap.fromTo(h, { scale: 0.2, rotation: -25, opacity: 0.2 }, {
       scale: 1, rotation: 0, opacity: 1, ease: "none",
-      scrollTrigger: { trigger: h, start: "top 90%", end: "top 45%", scrub: true },
+      scrollTrigger: { trigger: h, start: "top 92%", end: "top 45%", scrub: true },
     });
   });
   // star spins
@@ -433,7 +383,7 @@ if (!reduceMotion) {
   gsap.utils.toArray(".d-dots").forEach((d) => {
     gsap.fromTo(d.querySelectorAll("span"), { y: 18, opacity: 0 }, {
       y: 0, opacity: 1, stagger: 0.15, ease: "power2.out",
-      scrollTrigger: { trigger: d, start: "top 85%", toggleActions: "play none none reverse" },
+      scrollTrigger: { trigger: d, start: "top 92%", toggleActions: "play none none reverse" },
     });
   });
   // wave draws itself
@@ -443,7 +393,7 @@ if (!reduceMotion) {
     p.style.strokeDashoffset = len;
     gsap.to(p, {
       strokeDashoffset: 0, ease: "none",
-      scrollTrigger: { trigger: p.closest(".divider"), start: "top 85%", end: "bottom 55%", scrub: true },
+      scrollTrigger: { trigger: p.closest(".divider"), start: "top 92%", end: "bottom 55%", scrub: true },
     });
   });
 }
@@ -457,7 +407,7 @@ if (proposalVideo) {
     // Start it once it first comes into view, then let it keep looping — never pause.
     ScrollTrigger.create({
       trigger: ".proposal-media",
-      start: "top 90%",
+      start: "top 92%",
       once: true,
       onEnter: () => proposalVideo.play().catch(() => {}),
     });

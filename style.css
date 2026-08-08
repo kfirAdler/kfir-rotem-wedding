@@ -517,14 +517,15 @@ figcaption {
 .ambient-mover {
   position: absolute;
   display: block;
-  will-change: transform;
-  backface-visibility: hidden;
 }
 .ambient-mover > svg { display: block; width: 100%; height: auto; }
 .heart { fill: var(--blush); }
 /* hand-drawn flowering branches: colored blooms + bud, yellow core, inked outline, leafy stems */
 .flower ellipse, .flower .core, .flower .s-leaf { stroke: rgba(74,59,52,.55); stroke-width: 2.5; }
 .flower .core { fill: #F2A93B; }
+.flower .core-glint, .d-leaves .core-glint { fill: #FFF7D6; stroke: none; opacity: .9; }
+.ambient .petal-accent { opacity: .58; }
+.d-leaves .petal-accent { opacity: .7; }
 .flower .stem { fill: none; stroke: var(--sage-d); stroke-width: 3; stroke-linecap: round; }
 .flower .s-leaf { fill: var(--sage); }
 .flower .bud { fill: #C4457E; }
