@@ -17,11 +17,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&amp;display=swap"
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="style.css?v=16" />
+    <link rel="stylesheet" href="style.css?v=17" />
   </head>
   <body>
     <!-- Progress bar tied to scroll -->
@@ -31,6 +31,7 @@
 
     <!-- Floating ambient shapes (hand-drawn flowers / hearts) rendered once, parallaxed on scroll -->
     <div class="ambient" aria-hidden="true">
+      <span class="ambient-mover ambient-mover--flower-1">
       <svg class="flower flower-1" viewBox="0 0 140 220">
         <path class="stem" d="M70 215 C 56 175, 84 142, 72 100 C 68 86, 70 68, 70 52" />
         <path class="stem" d="M71 130 C 90 122, 106 104, 112 82" />
@@ -63,6 +64,8 @@
           <circle class="core" r="7.5" />
         </g>
       </svg>
+      </span>
+      <span class="ambient-mover ambient-mover--flower-2">
       <svg class="flower flower-2" viewBox="0 0 140 220">
         <path class="stem" d="M70 215 C 56 175, 84 142, 72 100 C 68 86, 70 68, 70 52" />
         <path class="stem" d="M71 130 C 90 122, 106 104, 112 82" />
@@ -95,11 +98,15 @@
           <circle class="core" r="7.5" />
         </g>
       </svg>
+      </span>
+      <span class="ambient-mover ambient-mover--heart-1">
       <svg class="heart heart-1" viewBox="0 0 100 90">
         <path
           d="M50 82C10 50 0 30 15 15C30 2 48 12 50 28C52 12 70 2 85 15C100 30 90 50 50 82Z"
         />
       </svg>
+      </span>
+      <span class="ambient-mover ambient-mover--flower-3">
       <svg class="flower flower-3" viewBox="0 0 140 220">
         <path class="stem" d="M70 215 C 56 175, 84 142, 72 100 C 68 86, 70 68, 70 52" />
         <path class="stem" d="M71 130 C 90 122, 106 104, 112 82" />
@@ -132,11 +139,14 @@
           <circle class="core" r="7.5" />
         </g>
       </svg>
+      </span>
+      <span class="ambient-mover ambient-mover--heart-2">
       <svg class="heart heart-2" viewBox="0 0 100 90">
         <path
           d="M50 82C10 50 0 30 15 15C30 2 48 12 50 28C52 12 70 2 85 15C100 30 90 50 50 82Z"
         />
       </svg>
+      </span>
     </div>
 
     <!-- ============ HERO ============ -->
@@ -542,44 +552,99 @@
       </div>
     </section>
 
-    <!-- ============ GALLERY - OUR MOMENTS ============ -->
+    <!-- ============ GALLERY - MOVING PHOTO RIBBON ============ -->
     <section class="scene gallery" id="gallery">
       <div class="gallery-inner">
         <h2 class="reveal">הרגעים שלהם</h2>
-        <div class="grid">
-          <figure class="g-item reveal tall">
-            <img src="assets/kiss-ring.jpg" alt="כפיר ורותם" loading="lazy" />
-          </figure>
-          <figure class="g-item reveal">
-            <img src="assets/walking.jpg" alt="כפיר ורותם" loading="lazy" />
-          </figure>
-          <figure class="g-item reveal">
-            <img src="assets/playful.jpg" alt="כפיר ורותם" loading="lazy" />
-          </figure>
-          <figure class="g-item reveal tall">
-            <img
-              src="assets/niagara.jpg"
-              alt="כפיר ורותם בניאגרה"
-              loading="lazy"
-            />
-          </figure>
-          <figure class="g-item reveal tall">
-            <img
-              src="assets/prague.jpg"
-              alt="כפיר ורותם בפראג"
-              loading="lazy"
-            />
-          </figure>
-          <figure class="g-item reveal tall">
-            <img
-              src="assets/proposal-after.jpeg"
-              alt="רגע אחרי ההצעה - הטבעת"
-              loading="lazy"
-            />
-          </figure>
-          <figure class="g-item reveal">
-            <img src="assets/noses.jpg" alt="כפיר ורותם" loading="lazy" />
-          </figure>
+        <div
+          class="photo-ribbon reveal"
+          role="region"
+          aria-label="גלריית תמונות — הרגעים שלהם"
+        >
+          <button
+            class="photo-ribbon__toggle"
+            type="button"
+            aria-controls="photoRibbonTrack"
+            aria-label="עצירת תנועת הגלריה"
+          >
+            <span aria-hidden="true">Ⅱ</span>
+          </button>
+          <div class="photo-ribbon__viewport">
+            <div class="photo-ribbon__track" id="photoRibbonTrack">
+              <div class="photo-ribbon__set">
+                <figure class="photo-ribbon__item">
+                  <img
+                    src="assets/kiss-ring.jpg"
+                    width="1600"
+                    height="1066"
+                    alt="כפיר ורותם"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure class="photo-ribbon__item">
+                  <img
+                    src="assets/walking.jpg"
+                    width="1600"
+                    height="1066"
+                    alt="כפיר ורותם הולכים יחד"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure class="photo-ribbon__item">
+                  <img
+                    src="assets/playful.jpg"
+                    width="1600"
+                    height="1064"
+                    alt="כפיר ורותם ברגע משעשע"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure class="photo-ribbon__item">
+                  <img
+                    src="assets/niagara.jpg"
+                    width="1536"
+                    height="2048"
+                    alt="כפיר ורותם בניאגרה"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure class="photo-ribbon__item">
+                  <img
+                    src="assets/prague.jpg"
+                    width="1536"
+                    height="2048"
+                    alt="כפיר ורותם בפראג"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure class="photo-ribbon__item">
+                  <img
+                    src="assets/proposal-after.jpeg"
+                    width="900"
+                    height="1600"
+                    alt="רגע אחרי ההצעה — הטבעת"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure class="photo-ribbon__item">
+                  <img
+                    src="assets/noses.jpg"
+                    width="1066"
+                    height="1600"
+                    alt="כפיר ורותם קרובים"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -597,6 +662,6 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <script src="script.js?v=12"></script>
+    <script src="script.js?v=13"></script>
   </body>
 </html>

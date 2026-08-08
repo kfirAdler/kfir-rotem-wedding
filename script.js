@@ -3,7 +3,106 @@
    =========================================================== */
 gsap.registerPlugin(ScrollTrigger);
 
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+const reduceMotion = motionPreference.matches;
+
+/* ---------- moving photo ribbon ---------- */
+(function initPhotoRibbon() {
+  const ribbon = document.querySelector(".photo-ribbon");
+  const viewport = ribbon?.querySelector(".photo-ribbon__viewport");
+  const track = ribbon?.querySelector(".photo-ribbon__track");
+  const set = ribbon?.querySelector(".photo-ribbon__set");
+  const toggle = ribbon?.querySelector(".photo-ribbon__toggle");
+  if (!ribbon || !viewport || !track || !set || !toggle) return;
+
+  let loopInitialized = false;
+  let loopReady = false;
+  let isNearViewport = false;
+  let resizeFrame = 0;
+  let lastSetWidth = 0;
+  let lastPhoneState = null;
+
+  const syncMotionState = () => {
+    const reduced = motionPreference.matches;
+    if (reduced) viewport.tabIndex = 0;
+    else viewport.removeAttribute("tabindex");
+    ribbon.classList.toggle("is-ready", loopReady && !reduced);
+    ribbon.classList.toggle("is-in-view", loopReady && !reduced && isNearViewport);
+  };
+
+  // Keep a similar visual pace across screen sizes and image orientations.
+  const setSpeed = () => {
+    const isPhone = window.innerWidth <= 640;
+    const setWidth = set.scrollWidth;
+    if (setWidth === lastSetWidth && isPhone === lastPhoneState) return;
+    lastSetWidth = setWidth;
+    lastPhoneState = isPhone;
+    const pixelsPerSecond = isPhone ? 30 : 46;
+    const minimumDuration = isPhone ? 48 : 40;
+    const seconds = Math.max(minimumDuration, setWidth / pixelsPerSecond);
+    track.style.setProperty("--ribbon-duration", `${seconds.toFixed(2)}s`);
+  };
+
+  const queueSpeedUpdate = () => {
+    if (resizeFrame) return;
+    resizeFrame = requestAnimationFrame(() => {
+      resizeFrame = 0;
+      setSpeed();
+    });
+  };
+
+  const setupLoop = () => {
+    if (loopInitialized) return;
+    loopInitialized = true;
+
+    // A hidden duplicate makes the right-moving strip loop without a visible seam.
+    const clone = set.cloneNode(true);
+    clone.classList.add("is-clone");
+    clone.setAttribute("aria-hidden", "true");
+    clone.querySelectorAll("img").forEach((img) => { img.alt = ""; });
+    track.prepend(clone);
+
+    // Spend animation work only while the final gallery is near the viewport.
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(([entry]) => {
+        isNearViewport = entry.isIntersecting;
+        syncMotionState();
+      }, { rootMargin: "20% 0px" });
+      observer.observe(ribbon);
+    } else {
+      isNearViewport = true;
+    }
+
+    window.addEventListener("resize", queueSpeedUpdate, { passive: true });
+    if (document.readyState === "complete") queueSpeedUpdate();
+    else window.addEventListener("load", queueSpeedUpdate, { once: true });
+
+    requestAnimationFrame(() => {
+      setSpeed();
+      loopReady = true;
+      syncMotionState();
+    });
+  };
+
+  const applyMotionPreference = () => {
+    if (!motionPreference.matches) setupLoop();
+    syncMotionState();
+  };
+
+  if (motionPreference.addEventListener) {
+    motionPreference.addEventListener("change", applyMotionPreference);
+  } else {
+    motionPreference.addListener(applyMotionPreference);
+  }
+  applyMotionPreference();
+
+  toggle.addEventListener("click", () => {
+    const paused = ribbon.classList.toggle("is-paused");
+    const label = paused ? "הפעלת תנועת הגלריה" : "עצירת תנועת הגלריה";
+    toggle.setAttribute("aria-label", label);
+    toggle.querySelector("span").textContent = paused ? "▶" : "Ⅱ";
+  });
+})();
 
 /* ---------- 1. scroll progress bar ---------- */
 gsap.to("#progressBar", {
@@ -32,20 +131,98 @@ if (!reduceMotion) {
     scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
   });
 
-  /* ---------- 4. ambient shapes parallax ---------- */
-  const drift = [
-    [".flower-1", -120, 30],
-    [".flower-2", 160, -40],
-    [".flower-3", -90, 20],
-    [".heart-1", 120, -25],
-    [".heart-2", -140, 35],
+  /* ---------- 4. ambient shapes — multi-direction drift across the whole story ---------- */
+  const ambientDrift = [
+    [".ambient-mover--flower-1", [
+      [0.09, -0.16, 14], [-0.07, 0.13, -11], [0.11, -0.09, 17], [-0.04, 0.18, -8], [0.08, -0.13, 13],
+    ]],
+    [".ambient-mover--flower-2", [
+      [-0.08, 0.14, -12], [0.10, -0.18, 15], [-0.06, 0.10, -9], [0.08, -0.15, 12], [-0.04, 0.12, -7],
+    ]],
+    [".ambient-mover--flower-3", [
+      [0.06, -0.12, 10], [-0.10, 0.17, -14], [0.08, -0.08, 13], [-0.05, 0.15, -9], [0.09, -0.11, 12],
+    ]],
+    [".ambient-mover--heart-1", [
+      [-0.05, 0.10, -9], [0.07, -0.14, 11], [-0.04, 0.09, -7], [0.06, -0.12, 10], [-0.03, 0.08, -6],
+    ]],
+    [".ambient-mover--heart-2", [
+      [0.06, -0.10, 9], [-0.05, 0.15, -11], [0.07, -0.08, 10], [-0.06, 0.13, -9], [0.04, -0.11, 7],
+    ]],
   ];
-  drift.forEach(([sel, y, rot]) => {
-    gsap.to(sel, {
-      y,
-      rotation: `+=${rot}`,
-      ease: "none",
-      scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: 1 },
+
+  const decorativeMotion = gsap.matchMedia();
+  decorativeMotion.add({
+    isPhone: "(max-width: 640px)",
+    reduceDecorativeMotion: "(prefers-reduced-motion: reduce)",
+  }, (context) => {
+    const { isPhone, reduceDecorativeMotion } = context.conditions;
+    if (reduceDecorativeMotion) return;
+
+    // Hidden mobile decorations do no animation work and rejoin after an orientation change.
+    const activeDrift = isPhone
+      ? ambientDrift.filter(([selector]) => !selector.endsWith("flower-2") && !selector.endsWith("heart-2"))
+      : ambientDrift;
+
+    activeDrift.forEach(([selector, points]) => {
+      const timeline = gsap.timeline({
+        defaults: { duration: 1, ease: "sine.inOut" },
+        scrollTrigger: {
+          trigger: "body",
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 1.35,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      points.forEach(([xViewport, yViewport, rotation]) => {
+        timeline.to(selector, {
+          x: () => window.innerWidth * xViewport,
+          y: () => window.innerHeight * yViewport * (window.innerWidth <= 640 ? 0.72 : 1),
+          rotation,
+          force3D: true,
+        });
+      });
+    });
+
+    // Each flower head turns around its own centre, slowly and in alternating directions.
+    const ambientPetalSelector = isPhone
+      ? ".ambient-mover:not(.ambient-mover--flower-2) .petals"
+      : ".ambient .petals";
+    gsap.utils.toArray(ambientPetalSelector).forEach((petals, index) => {
+      const baseTransform = petals.getAttribute("transform") || "";
+      const turn = index % 2 ? -360 : 360;
+      gsap.fromTo(
+        petals,
+        { attr: { transform: `${baseTransform} rotate(0)` } },
+        {
+          attr: { transform: `${baseTransform} rotate(${turn})` },
+          duration: 30 + (index % 3) * 7,
+          repeat: -1,
+          ease: "none",
+        }
+      );
+    });
+
+    // The smaller flowers between chapters spin only while their divider is visible.
+    gsap.utils.toArray(".d-leaves .petals").forEach((petals, index) => {
+      const turn = index % 2 ? -360 : 360;
+      gsap.fromTo(
+        petals,
+        { attr: { transform: "rotate(0 50 50)" } },
+        {
+          attr: { transform: `rotate(${turn} 50 50)` },
+          duration: 32 + index * 5,
+          repeat: -1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: petals.closest(".divider"),
+            start: "top bottom",
+            end: "bottom top",
+            toggleActions: "play pause resume pause",
+          },
+        }
+      );
     });
   });
 
@@ -182,7 +359,7 @@ if (!reduceMotion) {
   });
 
   /* ---------- 10. Ken Burns — photos slowly zoom as they scroll through ---------- */
-  gsap.utils.toArray(".g-item img, .photo-slot > img, .finale-photo img").forEach((img) => {
+  gsap.utils.toArray(".photo-slot > img, .finale-photo img").forEach((img) => {
     gsap.fromTo(
       img,
       { scale: 1.16 },
