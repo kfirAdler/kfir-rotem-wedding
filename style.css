@@ -73,7 +73,8 @@ body::before {
 .scene.dim { color: var(--ink-soft); }
 
 /* reveal base state — JS animates these in on scroll */
-.reveal { opacity: 0; transform: translateY(40px); will-change: transform, opacity; }
+.reveal { opacity: 0; transform: translateY(40px); }
+.reveal.reveal--media { transform: none; }
 
 /* ---------- hero ---------- */
 .hero { text-align: center; }
@@ -408,7 +409,6 @@ figcaption {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transition: transform .7s ease;
 }
 .photo-ribbon__toggle {
   display: none;
@@ -438,9 +438,6 @@ figcaption {
 .photo-ribbon__viewport:focus-visible {
   outline: 3px solid rgba(158,82,56,.5);
   outline-offset: -4px;
-}
-@media (hover: hover) and (pointer: fine) {
-  .photo-ribbon__item:hover img { transform: scale(1.04); }
 }
 @keyframes ribbonDrift {
   from { transform: translate3d(-50%, 0, 0); }
@@ -487,8 +484,9 @@ figcaption {
 
 /* ---------- finale ---------- */
 .finale-photo {
+  box-sizing: content-box;
   width: clamp(150px, 40vw, 230px);
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 1066 / 1600;
   margin: 0 auto 2rem;
   border-radius: 999px 999px 18px 18px;
   overflow: hidden;

@@ -151,13 +151,18 @@ gsap.to("#progressBar", {
 if (!reduceMotion) {
   /* ---------- 2. generic reveal-on-scroll ---------- */
   gsap.utils.toArray(".reveal").forEach((el) => {
-    gsap.to(el, {
+    const containsRasterMedia = Boolean(el.querySelector("img, video"));
+    if (containsRasterMedia) el.classList.add("reveal--media");
+
+    const revealAnimation = {
       opacity: 1,
-      y: 0,
       duration: 1,
       ease: "power3.out",
+      force3D: false,
       scrollTrigger: { trigger: el, start: "top 90%", toggleActions: "play none none reverse" },
-    });
+    };
+    if (!containsRasterMedia) revealAnimation.y = 0;
+    gsap.to(el, revealAnimation);
   });
 
   /* ---------- 3. hero — gentle parallax drift as you leave it ---------- */
@@ -354,24 +359,9 @@ if (!reduceMotion) {
     scrollTrigger: { trigger: '[data-chapter="4"]', start: "top center", end: "bottom center", scrub: true, toggleActions: "play reverse play reverse" },
   });
 
-  /* ---------- 10. Ken Burns — desktop only, so phone photos stay pixel-sharp ---------- */
-  const photoDepthMotion = gsap.matchMedia();
-  photoDepthMotion.add("(min-width: 641px) and (prefers-reduced-motion: no-preference)", () => {
-    gsap.utils.toArray(".photo-slot > img, .finale-photo img").forEach((img) => {
-      gsap.fromTo(
-        img,
-        { scale: 1.08 },
-        {
-          scale: 1,
-          ease: "none",
-          scrollTrigger: { trigger: img.closest("figure"), start: "top bottom", end: "bottom top", scrub: true },
-        }
-      );
-    });
-  });
-
-  /* ---------- 11. gentle depth parallax on each chapter's content ---------- */
+  /* ---------- 10. gentle depth parallax on text-only chapter content ---------- */
   gsap.utils.toArray(".chapter .chapter-body").forEach((body) => {
+    if (body.querySelector("img, video")) return;
     gsap.fromTo(
       body,
       { y: 34 },
@@ -383,7 +373,7 @@ if (!reduceMotion) {
     );
   });
 
-  /* ---------- 12. eyebrow / lead lines drift in from the side on scroll ---------- */
+  /* ---------- 11. eyebrow / lead lines drift in from the side on scroll ---------- */
   gsap.utils.toArray(".gallery h2, .proposal .eyebrow, .finale .eyebrow").forEach((el) => {
     gsap.fromTo(
       el,
@@ -397,7 +387,7 @@ if (!reduceMotion) {
     );
   });
 
-  /* ---------- 13. inter-chapter dividers — each its own motion ---------- */
+  /* ---------- 12. inter-chapter dividers — each its own motion ---------- */
   // line + heart draw open
   gsap.utils.toArray(".d-line").forEach((d) => {
     gsap
