@@ -17,6 +17,7 @@ const reduceMotion = motionPreference.matches;
 
   let loopInitialized = false;
   let loopReady = false;
+  let imagePreparationStarted = false;
   let isNearViewport = false;
   let resizeFrame = 0;
   let lastSetWidth = 0;
@@ -51,6 +52,46 @@ const reduceMotion = motionPreference.matches;
     });
   };
 
+  const prepareImages = async () => {
+    if (imagePreparationStarted) return;
+    imagePreparationStarted = true;
+
+    // Do not move progressive JPEGs until their full-quality frame is decoded.
+    const images = Array.from(set.querySelectorAll("img"));
+    images.forEach((img) => { img.loading = "eager"; });
+    await Promise.all(images.map((img) => {
+      let readiness;
+      if (typeof img.decode === "function") readiness = img.decode();
+      else if (img.complete) readiness = Promise.resolve();
+      else readiness = new Promise((resolve) => {
+        img.addEventListener("load", resolve, { once: true });
+        img.addEventListener("error", resolve, { once: true });
+      });
+      return readiness.catch(() => {});
+    }));
+
+    requestAnimationFrame(() => {
+      setSpeed();
+      loopReady = true;
+      syncMotionState();
+    });
+  };
+
+  const observeImagePreparation = () => {
+    if (!("IntersectionObserver" in window)) {
+      prepareImages();
+      return;
+    }
+
+    // Prepare the originals in every motion mode, shortly before they arrive.
+    const preloadObserver = new IntersectionObserver(([entry], activeObserver) => {
+      if (!entry.isIntersecting) return;
+      activeObserver.disconnect();
+      prepareImages();
+    }, { rootMargin: "1000px 0px" });
+    preloadObserver.observe(ribbon);
+  };
+
   const setupLoop = () => {
     if (loopInitialized) return;
     loopInitialized = true;
@@ -77,11 +118,6 @@ const reduceMotion = motionPreference.matches;
     if (document.readyState === "complete") queueSpeedUpdate();
     else window.addEventListener("load", queueSpeedUpdate, { once: true });
 
-    requestAnimationFrame(() => {
-      setSpeed();
-      loopReady = true;
-      syncMotionState();
-    });
   };
 
   const applyMotionPreference = () => {
@@ -94,6 +130,7 @@ const reduceMotion = motionPreference.matches;
   } else {
     motionPreference.addListener(applyMotionPreference);
   }
+  observeImagePreparation();
   applyMotionPreference();
 
   toggle.addEventListener("click", () => {
@@ -317,17 +354,20 @@ if (!reduceMotion) {
     scrollTrigger: { trigger: '[data-chapter="4"]', start: "top center", end: "bottom center", scrub: true, toggleActions: "play reverse play reverse" },
   });
 
-  /* ---------- 10. Ken Burns — photos slowly zoom as they scroll through ---------- */
-  gsap.utils.toArray(".photo-slot > img, .finale-photo img").forEach((img) => {
-    gsap.fromTo(
-      img,
-      { scale: 1.16 },
-      {
-        scale: 1,
-        ease: "none",
-        scrollTrigger: { trigger: img.closest("figure"), start: "top bottom", end: "bottom top", scrub: true },
-      }
-    );
+  /* ---------- 10. Ken Burns — desktop only, so phone photos stay pixel-sharp ---------- */
+  const photoDepthMotion = gsap.matchMedia();
+  photoDepthMotion.add("(min-width: 641px) and (prefers-reduced-motion: no-preference)", () => {
+    gsap.utils.toArray(".photo-slot > img, .finale-photo img").forEach((img) => {
+      gsap.fromTo(
+        img,
+        { scale: 1.08 },
+        {
+          scale: 1,
+          ease: "none",
+          scrollTrigger: { trigger: img.closest("figure"), start: "top bottom", end: "bottom top", scrub: true },
+        }
+      );
+    });
   });
 
   /* ---------- 11. gentle depth parallax on each chapter's content ---------- */
