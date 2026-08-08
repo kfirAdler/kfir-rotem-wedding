@@ -38,7 +38,7 @@ const reduceMotion = motionPreference.matches;
     if (setWidth === lastSetWidth && isPhone === lastPhoneState) return;
     lastSetWidth = setWidth;
     lastPhoneState = isPhone;
-    const pixelsPerSecond = isPhone ? 30 : 46;
+    const pixelsPerSecond = isPhone ? 34 : 52;
     const minimumDuration = isPhone ? 48 : 40;
     const seconds = Math.max(minimumDuration, setWidth / pixelsPerSecond);
     track.style.setProperty("--ribbon-duration", `${seconds.toFixed(2)}s`);
