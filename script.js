@@ -298,35 +298,20 @@ if (!reduceMotion) {
     scrollTrigger: { trigger: ".heart-seal", start: "top 90%", toggleActions: "play none none reverse" },
   });
 
-  /* ---------- 7. LinkedIn "liked your post" notification pops in ---------- */
-  gsap.from(".li-toast", {
-    y: 24, opacity: 0, scale: 0.85, duration: 0.6, ease: "back.out(2)",
-    scrollTrigger: { trigger: ".li-toast", start: "top 92%", toggleActions: "play none none reverse" },
-  });
-  gsap.fromTo(".li-toast-ic", { scale: 0 }, {
-    scale: 1, duration: 0.5, delay: 0.35, ease: "back.out(2.6)",
-    scrollTrigger: { trigger: ".li-toast", start: "top 92%", toggleActions: "play none none reverse" },
-  });
-  // a tiny spark catches fire on the toast's corner right after the like lands
-  const sparkTl = gsap.timeline({
-    scrollTrigger: { trigger: ".li-toast", start: "top 92%", toggleActions: "play none none reverse" },
-  });
-  sparkTl
-    .set(".li-spark", { opacity: 1 }, 0.6)
-    .fromTo(".ls-flame", { scale: 0, transformOrigin: "50% 100%" },
-      { scale: 1, duration: 0.5, ease: "back.out(3)" }, 0.6)
-    .to(".ls-flame", {
-      scaleY: 1.14, scaleX: 0.92, rotation: 3, transformOrigin: "50% 100%",
-      duration: 0.32, yoyo: true, repeat: -1, ease: "sine.inOut",
-    });
-  // ...and little embers keep drifting up off it (visible only once the spark is lit)
-  document.querySelectorAll(".li-spark i").forEach((p, i) => {
-    gsap.fromTo(p, { x: 0, y: 0, opacity: 0.9 }, {
-      x: [-9, 7, 2][i], y: -26 - i * 6, opacity: 0,
-      duration: 1.1 + i * 0.25, delay: i * 0.4,
-      repeat: -1, repeatDelay: 0.5, ease: "power1.out",
-    });
-  });
+  /* ---------- 7. LinkedIn like — only the thumb pops from the center ---------- */
+  gsap.timeline({
+    scrollTrigger: { trigger: ".li-toast", start: "top 78%", toggleActions: "play none none reverse" },
+  }).fromTo(
+    ".li-toast-emoji",
+    { scale: 0 },
+    {
+      scale: 1,
+      duration: 0.5,
+      ease: "back.out(2.8)",
+      transformOrigin: "50% 50%",
+    },
+    0.3
+  );
 
   /* ---------- 8. Instagram DM — typing indicator, then each message ---------- */
   (function igDM() {

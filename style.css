@@ -265,18 +265,9 @@ figcaption {
 }
 .li-toast-ic { display: inline-grid; place-items: center; width: 26px; height: 26px;
   border-radius: 50%; background: #378FE9; font-size: .8rem; flex: none; }
+.li-toast-emoji { display: inline-block; line-height: 1; transform-origin: 50% 50%; }
 .li-toast-txt { font-size: .88rem; color: rgba(0,0,0,.75); }
 .li-toast-txt b { color: rgba(0,0,0,.9); }
-
-/* tiny spark that ignites on the toast's corner when the like lands */
-.li-toast { position: relative; }
-.li-spark { position: absolute; top: -17px; right: -7px; width: 30px; height: 36px; pointer-events: none; opacity: 0; }
-.ls-flame { position: absolute; bottom: 6px; left: 4px; width: 22px; height: 27px; }
-.ls-flame .f-outer { fill: #E8853D; }
-.ls-flame .f-inner { fill: #F6C15B; }
-.li-spark i { position: absolute; bottom: 16px; left: 13px; width: 4px; height: 4px; border-radius: 50%; background: #E8853D; opacity: 0; }
-.li-spark i:nth-child(3) { width: 3px; height: 3px; background: #F6C15B; }
-.li-spark i:nth-child(4) { width: 3px; height: 3px; background: #D9803A; }
 
 /* ---------- Instagram DM ---------- */
 .ig-dm {
