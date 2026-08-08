@@ -198,7 +198,7 @@ body::before {
 }
 .photo-placeholder span { font-size: 2.4rem; }
 .photo-placeholder small { color: var(--ink-soft); }
-.photo-slot img { width: 100%; border-radius: 18px; display: block; box-shadow: 0 24px 50px -24px rgba(74,59,52,.4); }
+.photo-slot img { width: 100%; height: auto; border-radius: 18px; display: block; box-shadow: 0 24px 50px -24px rgba(74,59,52,.4); }
 figcaption {
   font-family: var(--hand); font-size: 1.7rem; color: var(--sage-d);
   text-align: center; margin-top: .6rem;
@@ -467,7 +467,7 @@ figcaption {
   box-shadow: 0 28px 60px -28px rgba(74,59,52,.6);
   background: #fff;
 }
-.comics-slot img { width: 100%; display: block; }
+.comics-slot img { width: 100%; height: auto; display: block; }
 .proposal-media {
   margin: 2.2rem auto 1.6rem; max-width: 600px; width: 100%;
   aspect-ratio: 16 / 9;
