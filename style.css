@@ -1,0 +1,530 @@
+/* ===========================================================
+   הסיפור שלנו — wedding scrollytelling
+   Warm & romantic · Hebrew RTL · blush / terracotta / sage
+   =========================================================== */
+
+:root {
+  --cream:      #FBF4EC;
+  --cream-2:    #F4E8DC;
+  --blush:      #E3A6A1;
+  --blush-soft: #EFC9C4;
+  --terracotta: #BE6A4C;
+  --terracotta-d:#9E5238;
+  --sage:       #93A886;
+  --sage-d:     #6F8763;
+  --ink:        #4A3B34;
+  --ink-soft:   #7A6a61;
+  --gold:       #C9A24B;
+
+  /* Everything uses Assistant — kept as three roles so weights/sizes stay distinct */
+  --serif: "Assistant", system-ui, sans-serif;
+  --sans:  "Assistant", system-ui, sans-serif;
+  --hand:  "Assistant", system-ui, sans-serif;
+
+  --maxw: 820px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; overflow-x: clip; }
+
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--cream);
+  line-height: 1.7;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Warm paper gradient that subtly shifts down the page */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(1200px 800px at 80% -10%, var(--blush-soft) 0%, transparent 55%),
+    radial-gradient(1000px 700px at 0% 110%, #DfeAD8 0%, transparent 55%),
+    linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+}
+
+/* ---------- scroll progress ---------- */
+.progress {
+  position: fixed; inset-block-start: 0; inset-inline: 0;
+  height: 4px; z-index: 100; background: rgba(74,59,52,.08);
+}
+.progress span {
+  display: block; height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--sage), var(--blush), var(--terracotta));
+}
+
+/* ---------- scenes ---------- */
+.scene {
+  position: relative;
+  min-height: 100vh;          /* fallback for older browsers */
+  min-height: 100svh;         /* small viewport — avoids iOS address-bar jump */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12vh 6vw;
+  padding-inline: max(6vw, env(safe-area-inset-left), env(safe-area-inset-right));
+}
+.scene.dim { color: var(--ink-soft); }
+
+/* reveal base state — JS animates these in on scroll */
+.reveal { opacity: 0; transform: translateY(40px); will-change: transform, opacity; }
+
+/* ---------- hero ---------- */
+.hero { text-align: center; }
+.hero-inner { max-width: var(--maxw); }
+.eyebrow {
+  font-family: var(--hand);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  letter-spacing: .06em;
+  color: var(--terracotta);
+}
+.names {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: clamp(3.2rem, 13vw, 8rem);
+  line-height: 1.05;
+  color: var(--ink);
+  display: flex; gap: .18em; justify-content: center; align-items: center;
+  flex-wrap: wrap;
+  margin: .1em 0 .3em;
+}
+.names .amp { color: var(--blush); font-weight: 300; }
+.hero-date {
+  font-size: clamp(1rem, 3vw, 1.4rem);
+  letter-spacing: .35em;
+  color: var(--ink-soft);
+}
+.hero-almost {
+  font-family: var(--hand);
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  color: var(--sage-d);
+  margin-top: .5em;
+}
+
+.scroll-cue {
+  position: absolute; inset-block-end: max(4vh, env(safe-area-inset-bottom)); inset-inline: 0;
+  display: flex; flex-direction: column; align-items: center; gap: .6rem;
+  color: var(--ink-soft); font-size: .8rem; letter-spacing: .2em;
+}
+.mouse {
+  width: 24px; height: 38px; border: 2px solid var(--ink-soft);
+  border-radius: 14px; position: relative;
+}
+.mouse i {
+  position: absolute; inset-block-start: 7px; inset-inline-start: 50%;
+  width: 4px; height: 8px; border-radius: 3px; background: var(--terracotta);
+  transform: translateX(-50%);
+  animation: scrollDot 1.6s infinite;
+}
+@keyframes scrollDot { 0%{opacity:0;transform:translate(-50%,0)} 40%{opacity:1} 80%{opacity:0;transform:translate(-50%,12px)} }
+
+/* ---------- chapters ---------- */
+.chapter-body { max-width: var(--maxw); position: relative; z-index: 2; text-align: center; margin-inline: auto; }
+.chapter-body p { margin-inline: auto; }
+.chapter-body .tags-row { justify-content: center; }
+.chapter-body .paths,
+.chapter-body .photo-slot,
+.chapter-body .li-post,
+.chapter-body .ig-dm,
+.chapter-body .li-toast { margin-inline: auto; }
+.chapter-body.center { text-align: center; display:flex; flex-direction:column; align-items:center; }
+.chapter-num {
+  display: none; /* removed — chapter text now centered */
+  font-family: var(--serif);
+  font-size: clamp(4rem, 16vw, 11rem);
+  font-weight: 300;
+  color: rgba(190,106,76,.14);
+  line-height: .8;
+  margin-bottom: -.2em;
+  position: relative; z-index: 1;
+}
+.chapter h2 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(2rem, 6vw, 3.6rem);
+  line-height: 1.15;
+  color: var(--terracotta-d);
+  margin-bottom: .6em;
+}
+.chapter p {
+  font-size: clamp(1.05rem, 2.4vw, 1.4rem);
+  max-width: 42ch;
+}
+.chapter p.punch {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  color: var(--ink);
+  margin-top: .8em;
+}
+.chapter em { color: var(--terracotta); font-style: normal; font-weight: 600; }
+
+.pill {
+  display: inline-block; margin-inline-end: .6rem; margin-top: 1.4rem;
+  padding: .5em 1.2em; border-radius: 999px;
+  background: var(--blush-soft); color: var(--terracotta-d);
+  font-weight: 600; font-size: .95rem;
+}
+.pill.sage { background: #DCE7D3; color: var(--sage-d); }
+.tags-row { display: flex; flex-wrap: wrap; }
+
+/* ---------- SVG paths (drawn on scroll) ---------- */
+.paths { width: 100%; max-width: 560px; height: auto; margin-top: 2rem; overflow: visible; }
+.paths path {
+  fill: none; stroke-width: 3; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1; /* set precisely in JS */
+}
+.path-groom { stroke: var(--terracotta); }
+.path-bride { stroke: var(--sage-d); }
+.path-together { stroke: var(--blush); stroke-width: 5; }
+.merge-dot { fill: var(--blush); }
+
+/* ---------- photo slots ---------- */
+.photo-slot { margin-top: 2.5rem; max-width: 460px; }
+.photo-slot > img { border-radius: 18px; overflow: hidden; }
+.photo-placeholder {
+  aspect-ratio: 4 / 3;
+  border: 2px dashed var(--blush);
+  border-radius: 18px;
+  background: rgba(239,201,196,.18);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: .6rem; color: var(--terracotta); text-align: center;
+}
+.photo-placeholder span { font-size: 2.4rem; }
+.photo-placeholder small { color: var(--ink-soft); }
+.photo-slot img { width: 100%; border-radius: 18px; display: block; box-shadow: 0 24px 50px -24px rgba(74,59,52,.4); }
+figcaption {
+  font-family: var(--hand); font-size: 1.7rem; color: var(--sage-d);
+  text-align: center; margin-top: .6rem;
+}
+
+/* ---------- LinkedIn post mock ---------- */
+.li-post {
+  margin-top: 2.4rem; max-width: 420px; width: 100%;
+  background: #fff; border: 1px solid #e4e4e4; border-radius: 12px;
+  box-shadow: 0 20px 44px -24px rgba(74,59,52,.45);
+  text-align: left; font-family: -apple-system, "Segoe UI", Roboto, "Assistant", sans-serif;
+  color: rgba(0,0,0,.9); overflow: hidden;
+}
+.li-top { display: flex; align-items: flex-start; gap: .6rem; padding: .9rem 1rem .4rem; }
+.li-pic { width: 48px; height: 48px; border-radius: 50%; overflow: hidden; flex: none; }
+.li-pic img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block; }
+.li-id { display: flex; flex-direction: column; line-height: 1.25; flex: 1; }
+.li-name { font-weight: 600; font-size: .95rem; color: rgba(0,0,0,.9); }
+.li-you { color: rgba(0,0,0,.6); font-weight: 400; }
+.li-role { font-size: .78rem; color: rgba(0,0,0,.6); }
+.li-time { font-size: .78rem; color: rgba(0,0,0,.6); }
+.li-more { color: rgba(0,0,0,.6); font-size: 1.2rem; letter-spacing: .05em; padding-inline: .2rem; }
+.li-body { padding: 0 1rem .7rem; font-size: .95rem; line-height: 1.45; }
+.li-link { color: #0a66c2; font-weight: 600; }
+
+.li-media { border-block: 1px solid #f0f0f0; }
+.li-illus {
+  position: relative; height: 220px; overflow: hidden;
+  background: #fff;
+  background-image:
+    repeating-linear-gradient(35deg, #e9e9ef 0 2px, transparent 2px 15px),
+    repeating-linear-gradient(-35deg, #eef0f4 0 2px, transparent 2px 17px);
+  border-bottom: 34px solid #C7D0E6; /* periwinkle floor band */
+}
+.li-cupcake { position: absolute; left: 50%; bottom: -30px; transform: translateX(-50%); width: 150px; height: auto; }
+.li-confetti { position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 30%, #E9A23B 0 4px, transparent 5px),
+    radial-gradient(circle at 82% 26%, #2FB8A8 0 4px, transparent 5px),
+    radial-gradient(circle at 30% 62%, #4A6FE3 0 4px, transparent 5px),
+    radial-gradient(circle at 70% 66%, #E2557B 0 4px, transparent 5px),
+    radial-gradient(circle at 50% 18%, #E9A23B 0 3px, transparent 4px);
+}
+.li-caption { text-align: center; font-weight: 700; color: rgba(0,0,0,.55); font-size: 1.15rem; padding: .9rem 1rem 1rem; }
+
+.li-stats { display: flex; justify-content: space-between; align-items: center;
+  padding: .55rem 1rem; font-size: .8rem; color: rgba(0,0,0,.6); }
+.li-react { display: inline-flex; align-items: center; gap: .15rem; }
+.li-r { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; font-size: .6rem; margin-inline-start: -4px; border: 1.5px solid #fff; }
+.li-r.rb { background: #378FE9; margin-inline-start: 0; }
+.li-r.rg { background: #6DAE4F; }
+.li-react { margin-inline-end: .35rem; }
+.li-bar { display: flex; justify-content: space-between; border-top: 1px solid #eee;
+  padding: .5rem .4rem; font-size: .82rem; font-weight: 600; color: rgba(0,0,0,.6); }
+.li-bar span { padding: .35rem .3rem; }
+
+/* Rotem's "liked your post" notification */
+.li-toast {
+  margin: 1rem auto 0; max-width: 340px;
+  display: flex; align-items: center; gap: .6rem;
+  background: #fff; border: 1px solid #e4e4e4; border-radius: 10px;
+  padding: .7rem .9rem; box-shadow: 0 14px 34px -18px rgba(74,59,52,.5);
+  text-align: left; font-family: -apple-system, "Segoe UI", Roboto, "Assistant", sans-serif;
+}
+.li-toast-ic { display: inline-grid; place-items: center; width: 26px; height: 26px;
+  border-radius: 50%; background: #378FE9; font-size: .8rem; flex: none; }
+.li-toast-txt { font-size: .88rem; color: rgba(0,0,0,.75); }
+.li-toast-txt b { color: rgba(0,0,0,.9); }
+
+/* tiny spark that ignites on the toast's corner when the like lands */
+.li-toast { position: relative; }
+.li-spark { position: absolute; top: -17px; right: -7px; width: 30px; height: 36px; pointer-events: none; opacity: 0; }
+.ls-flame { position: absolute; bottom: 6px; left: 4px; width: 22px; height: 27px; }
+.ls-flame .f-outer { fill: #E8853D; }
+.ls-flame .f-inner { fill: #F6C15B; }
+.li-spark i { position: absolute; bottom: 16px; left: 13px; width: 4px; height: 4px; border-radius: 50%; background: #E8853D; opacity: 0; }
+.li-spark i:nth-child(3) { width: 3px; height: 3px; background: #F6C15B; }
+.li-spark i:nth-child(4) { width: 3px; height: 3px; background: #D9803A; }
+
+/* ---------- Instagram DM ---------- */
+.ig-dm {
+  margin-top: 2.2rem; width: 100%; max-width: 400px;
+  background: #fff; border-radius: 22px; overflow: hidden;
+  box-shadow: 0 24px 50px -26px rgba(74,59,52,.5);
+  border: 1px solid #ededed;
+}
+.ig-head {
+  display: flex; align-items: center; gap: .55rem;
+  padding: .7rem .9rem; border-bottom: 1px solid #efefef;
+}
+.ig-back { font-size: 1.6rem; color: #262626; line-height: 1; }
+.ig-avatar {
+  width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
+  color: #fff; font-weight: 700; font-family: var(--serif);
+  background: conic-gradient(from 200deg, #F9695B, #D22E9D, #7A3FF2, #F9695B);
+}
+.ig-user { display: flex; flex-direction: column; line-height: 1.15; }
+.ig-user strong { font-size: .95rem; color: #262626; }
+.ig-user small { font-size: .72rem; color: #8e8e8e; }
+.ig-cam { margin-inline-start: auto; color: #262626; display: flex; }
+.ig-body {
+  padding: 1rem .9rem 1.2rem;
+  display: flex; flex-direction: column; gap: .35rem;
+  background: #fff;
+}
+.ig-msg {
+  max-width: 78%; padding: .55em .95em; font-size: 1.02rem; line-height: 1.4;
+  border-radius: 20px; display: none; opacity: 0; transform: translateY(14px); will-change: transform, opacity;
+}
+/* received (רותם) — grey, on the start (right in RTL) */
+.ig-msg.in {
+  align-self: flex-start; background: #efefef; color: #000;
+  border-end-start-radius: 6px;
+}
+/* sent (כפיר) — Instagram gradient, on the end (left in RTL) */
+.ig-msg.out {
+  align-self: flex-end; color: #fff;
+  background: linear-gradient(135deg, #7A3FF2 0%, #D22E9D 55%, #F9695B 100%);
+  border-end-end-radius: 6px;
+}
+/* consecutive received bubbles hug closer */
+.ig-msg.in + .ig-msg.in { border-start-start-radius: 6px; }
+
+/* typing indicator (bouncing dots) */
+.ig-typing {
+  display: none; align-items: center; gap: 5px;
+  padding: .7em .95em; border-radius: 20px; opacity: 0; width: max-content;
+}
+.ig-typing.in { align-self: flex-start; background: #efefef; border-end-start-radius: 6px; }
+.ig-typing.out {
+  align-self: flex-end; border-end-end-radius: 6px;
+  background: linear-gradient(135deg, #7A3FF2 0%, #D22E9D 55%, #F9695B 100%);
+}
+.ig-typing span {
+  width: 7px; height: 7px; border-radius: 50%; background: #9a9a9a;
+  animation: ig-typedot 1.2s infinite ease-in-out;
+}
+.ig-typing.out span { background: rgba(255,255,255,.9); }
+.ig-typing span:nth-child(2) { animation-delay: .18s; }
+.ig-typing span:nth-child(3) { animation-delay: .36s; }
+@keyframes ig-typedot {
+  0%, 60%, 100% { transform: translateY(0); opacity: .45; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* ---------- converge / heart seal ---------- */
+.heart-seal { width: clamp(70px, 16vw, 120px); margin-top: 1.5rem; }
+.heart-seal svg { fill: var(--blush); filter: drop-shadow(0 10px 20px rgba(227,166,161,.5)); }
+
+/* ---------- gallery — our moments ---------- */
+.gallery { padding-block: 14vh; }
+.gallery-inner { width: 100%; max-width: 980px; }
+.gallery h2 {
+  font-family: var(--serif); font-weight: 700;
+  font-size: clamp(2rem, 6vw, 3.4rem); color: var(--terracotta-d);
+  text-align: center; margin-bottom: 1.6em;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 200px;
+  gap: 14px;
+}
+.g-item { position: relative; border-radius: 16px; overflow: hidden; box-shadow: 0 18px 40px -22px rgba(74,59,52,.45); }
+.g-item.tall { grid-row: span 2; }
+.g-item.wide { grid-column: 1 / -1; grid-row: span 2; }
+.g-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .8s ease; }
+.g-item:hover img { transform: scale(1.05); }
+
+/* ---------- the proposal ---------- */
+.proposal { text-align: center; }
+.proposal-inner { max-width: 820px; width: 100%; }
+.proposal h2 {
+  font-family: var(--serif); font-weight: 800;
+  font-size: clamp(2.4rem, 8vw, 4rem); color: var(--terracotta-d);
+  margin-bottom: .3em;
+}
+.proposal-lead {
+  font-size: clamp(1.05rem, 2.6vw, 1.4rem); color: var(--ink);
+  max-width: 40ch; margin: 2rem auto 0;
+}
+.proposal-story {
+  font-size: clamp(1rem, 2.3vw, 1.2rem); color: var(--ink);
+  max-width: 46ch; margin: .9em auto 0;
+}
+.comics-slot {
+  margin: 2rem auto 0; max-width: 480px; width: 100%;
+  border-radius: 20px; overflow: hidden;
+  border: 6px solid #fff;
+  box-shadow: 0 28px 60px -28px rgba(74,59,52,.6);
+  background: #fff;
+}
+.comics-slot img { width: 100%; display: block; }
+.proposal-media {
+  margin: 2.2rem auto 1.6rem; max-width: 600px; width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 20px; overflow: hidden;
+  border: 6px solid #fff;
+  box-shadow: 0 28px 60px -28px rgba(74,59,52,.6);
+  background: #efe6da;
+}
+.proposal-video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.proposal-punch {
+  font-family: var(--serif); font-weight: 700;
+  font-size: clamp(1.6rem, 5vw, 2.6rem); color: var(--sage-d);
+}
+
+/* ---------- finale ---------- */
+.finale-photo {
+  width: clamp(150px, 40vw, 230px);
+  aspect-ratio: 3 / 4;
+  margin: 0 auto 2rem;
+  border-radius: 999px 999px 18px 18px;
+  overflow: hidden;
+  box-shadow: 0 24px 55px -26px rgba(74,59,52,.55);
+  border: 4px solid #fff;
+}
+.finale-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.finale { text-align: center; }
+.finale-inner { max-width: var(--maxw); }
+.finale-title {
+  font-family: var(--serif); font-weight: 700;
+  font-size: clamp(2.2rem, 7vw, 4rem); color: var(--terracotta-d);
+}
+.finale-note { font-size: clamp(1.05rem, 2.6vw, 1.4rem); margin: 1rem auto 2rem; max-width: 46ch; }
+.finale-names {
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(2.4rem, 9vw, 5rem);
+  display: flex; gap: .3em; justify-content: center; align-items: center;
+}
+.finale-names .amp { color: var(--blush); }
+.finale-date { letter-spacing: .35em; color: var(--ink-soft); margin-top: 1rem; }
+.finale-venue { font-family: var(--hand); font-size: 1.6rem; color: var(--sage-d); margin-top: .4rem; }
+
+/* ---------- ambient floating shapes ---------- */
+.ambient { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+.ambient svg { position: absolute; opacity: .5; }
+.heart { fill: var(--blush); }
+/* hand-drawn flowering branches: colored blooms + bud, yellow core, inked outline, leafy stems */
+.flower ellipse, .flower .core, .flower .s-leaf { stroke: rgba(74,59,52,.55); stroke-width: 2.5; }
+.flower .core { fill: #F2A93B; }
+.flower .stem { fill: none; stroke: var(--sage-d); stroke-width: 3; stroke-linecap: round; }
+.flower .s-leaf { fill: var(--sage); }
+.flower .bud { fill: #C4457E; }
+.flower-1 .petals { fill: #E05A4E; }
+.flower-2 .petals { fill: #F2C14E; }
+.flower-3 .petals { fill: #D9518F; }
+.flower-1 { width: 110px; inset-block-start: 12%; inset-inline-start: 8%;  opacity:.35; }
+.flower-2 { width: 75px;  inset-block-start: 62%; inset-inline-end: 10%;  opacity:.3; transform: rotate(40deg) scaleX(-1); }
+.flower-3 { width: 130px; inset-block-start: 80%; inset-inline-start: 14%; opacity:.28; transform: rotate(-30deg); }
+.heart-1 { width: 46px;  inset-block-start: 30%; inset-inline-end: 16%; opacity:.4; }
+.heart-2 { width: 70px;  inset-block-start: 48%; inset-inline-start: 6%; opacity:.32; }
+
+/* ---------- inter-chapter dividers (each animates differently) ---------- */
+.divider {
+  min-height: 24vh;
+  display: flex; align-items: center; justify-content: center;
+  gap: 1rem;
+}
+.d-line { gap: 0; }
+.d-line .dl-line {
+  height: 2px; width: 80px; border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--blush));
+}
+.d-line .dl-line:last-child { transform: scaleX(-1); }
+.d-line .dl-heart { width: 30px; fill: var(--blush); margin: 0 .9rem; }
+
+.d-leaves .dv-flower { width: 30px; opacity: .8; }
+.d-leaves .dv-flower ellipse, .d-leaves .dv-flower .core { stroke: rgba(74,59,52,.55); stroke-width: 2.5; }
+.d-leaves .dv-flower .core { fill: #F2A93B; }
+.d-leaves .dv-flower:nth-child(1) .petals { fill: #E05A4E; }
+.d-leaves .dv-flower:nth-child(2) { width: 44px; opacity: .9; }
+.d-leaves .dv-flower:nth-child(2) .petals { fill: #F2C14E; }
+.d-leaves .dv-flower:nth-child(3) .petals { fill: #D9518F; }
+
+.d-bloom .db-heart {
+  width: 58px; fill: var(--terracotta);
+  filter: drop-shadow(0 8px 16px rgba(190,106,76,.35));
+}
+
+.d-spin .ds-star { width: 42px; fill: var(--gold); }
+
+.d-dots { gap: .8rem; }
+.d-dots span { width: 12px; height: 12px; border-radius: 50%; background: var(--blush); display: inline-block; }
+.d-dots span:nth-child(2) { background: var(--sage); }
+.d-dots span:nth-child(3) { background: var(--terracotta); }
+
+.d-wave svg { width: min(60vw, 220px); height: auto; overflow: visible; }
+.d-wave .dw-path { fill: none; stroke: var(--sage-d); stroke-width: 3; stroke-linecap: round; }
+
+/* ---------- phones (iPhone / Galaxy / etc.) ---------- */
+@media (max-width: 640px) {
+  .scene { padding-block: 11vh; }
+
+  /* keep long words / SVGs from forcing horizontal scroll */
+  .paths { max-width: 100%; }
+  .li-card, .chat { max-width: 100%; }
+
+  /* the chapter ghost-number is smaller and pinned to the reading edge */
+  .chapter-num { font-size: clamp(3.4rem, 22vw, 6rem); }
+
+  /* fewer, fainter floating shapes so they never sit on the text */
+  .ambient svg { opacity: .28; }
+  .flower-2, .heart-2 { display: none; }
+  .flower-1 { width: 76px; }
+  .flower-3 { width: 92px; inset-inline-start: auto; inset-inline-end: 10%; }
+  .heart-1 { width: 38px; }
+
+  /* comfortable reading measure on narrow screens */
+  .chapter p { max-width: none; }
+
+  /* gallery → two columns on phones */
+  .grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; gap: 10px; }
+}
+
+/* very small / older phones */
+@media (max-width: 360px) {
+  .names { font-size: 3rem; }
+  .hero-date { letter-spacing: .18em; }
+}
+
+/* ---------- accessibility: respect reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .li-toast { opacity: 1 !important; transform: none !important; }
+  .ig-msg { display: block !important; opacity: 1 !important; transform: none !important; }
+  .ig-typing { display: none !important; }
+  .paths path { stroke-dasharray: none !important; stroke-dashoffset: 0 !important; }
+  .mouse i { animation: none; }
+  html { scroll-behavior: auto; }
+}

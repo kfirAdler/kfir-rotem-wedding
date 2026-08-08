@@ -1,0 +1,602 @@
+
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>כפיר ורותם · כמעט נשואים</title>
+    <meta
+      name="description"
+      content="הסיפור של איך כפיר ורותם נפגשו - לפני החתונה"
+    />
+
+    <!-- Fonts: elegant Hebrew serif + clean sans + handwritten accent -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css?v=16" />
+  </head>
+  <body>
+    <!-- Progress bar tied to scroll -->
+    <div class="progress" aria-hidden="true">
+      <span id="progressBar"></span>
+    </div>
+
+    <!-- Floating ambient shapes (hand-drawn flowers / hearts) rendered once, parallaxed on scroll -->
+    <div class="ambient" aria-hidden="true">
+      <svg class="flower flower-1" viewBox="0 0 140 220">
+        <path class="stem" d="M70 215 C 56 175, 84 142, 72 100 C 68 86, 70 68, 70 52" />
+        <path class="stem" d="M71 130 C 90 122, 106 104, 112 82" />
+        <path class="stem" d="M66 170 C 48 162, 38 150, 34 136" />
+        <path class="s-leaf" d="M68 192 C 52 190, 42 178, 44 164 C 58 170, 66 178, 68 192 Z" />
+        <path class="s-leaf" d="M74 158 C 90 156, 100 144, 98 130 C 84 136, 76 144, 74 158 Z" />
+        <path class="s-leaf" d="M94 114 C 106 120, 120 116, 126 104 C 112 98, 100 104, 94 114 Z" />
+        <path class="s-leaf" d="M66 206 C 50 206, 38 196, 38 182 C 52 186, 62 194, 66 206 Z" />
+        <ellipse class="bud" cx="32" cy="128" rx="5.5" ry="9" transform="rotate(-35 32 128)" />
+        <g class="petals" transform="translate(70 52)">
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(45)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(90)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(135)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(180)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(225)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(270)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(315)" />
+          <circle class="core" r="7.5" />
+        </g>
+        <g class="petals" transform="translate(114 74) scale(.68)">
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(45)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(90)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(135)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(180)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(225)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(270)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(315)" />
+          <circle class="core" r="7.5" />
+        </g>
+      </svg>
+      <svg class="flower flower-2" viewBox="0 0 140 220">
+        <path class="stem" d="M70 215 C 56 175, 84 142, 72 100 C 68 86, 70 68, 70 52" />
+        <path class="stem" d="M71 130 C 90 122, 106 104, 112 82" />
+        <path class="stem" d="M66 170 C 48 162, 38 150, 34 136" />
+        <path class="s-leaf" d="M68 192 C 52 190, 42 178, 44 164 C 58 170, 66 178, 68 192 Z" />
+        <path class="s-leaf" d="M74 158 C 90 156, 100 144, 98 130 C 84 136, 76 144, 74 158 Z" />
+        <path class="s-leaf" d="M94 114 C 106 120, 120 116, 126 104 C 112 98, 100 104, 94 114 Z" />
+        <path class="s-leaf" d="M66 206 C 50 206, 38 196, 38 182 C 52 186, 62 194, 66 206 Z" />
+        <ellipse class="bud" cx="32" cy="128" rx="5.5" ry="9" transform="rotate(-35 32 128)" />
+        <g class="petals" transform="translate(70 52)">
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(45)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(90)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(135)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(180)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(225)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(270)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(315)" />
+          <circle class="core" r="7.5" />
+        </g>
+        <g class="petals" transform="translate(114 74) scale(.68)">
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(45)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(90)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(135)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(180)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(225)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(270)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(315)" />
+          <circle class="core" r="7.5" />
+        </g>
+      </svg>
+      <svg class="heart heart-1" viewBox="0 0 100 90">
+        <path
+          d="M50 82C10 50 0 30 15 15C30 2 48 12 50 28C52 12 70 2 85 15C100 30 90 50 50 82Z"
+        />
+      </svg>
+      <svg class="flower flower-3" viewBox="0 0 140 220">
+        <path class="stem" d="M70 215 C 56 175, 84 142, 72 100 C 68 86, 70 68, 70 52" />
+        <path class="stem" d="M71 130 C 90 122, 106 104, 112 82" />
+        <path class="stem" d="M66 170 C 48 162, 38 150, 34 136" />
+        <path class="s-leaf" d="M68 192 C 52 190, 42 178, 44 164 C 58 170, 66 178, 68 192 Z" />
+        <path class="s-leaf" d="M74 158 C 90 156, 100 144, 98 130 C 84 136, 76 144, 74 158 Z" />
+        <path class="s-leaf" d="M94 114 C 106 120, 120 116, 126 104 C 112 98, 100 104, 94 114 Z" />
+        <path class="s-leaf" d="M66 206 C 50 206, 38 196, 38 182 C 52 186, 62 194, 66 206 Z" />
+        <ellipse class="bud" cx="32" cy="128" rx="5.5" ry="9" transform="rotate(-35 32 128)" />
+        <g class="petals" transform="translate(70 52)">
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(45)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(90)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(135)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(180)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(225)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(270)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(315)" />
+          <circle class="core" r="7.5" />
+        </g>
+        <g class="petals" transform="translate(114 74) scale(.68)">
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(45)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(90)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(135)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(180)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(225)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(270)" />
+          <ellipse cx="0" cy="-16" rx="6.5" ry="12.5" transform="rotate(315)" />
+          <circle class="core" r="7.5" />
+        </g>
+      </svg>
+      <svg class="heart heart-2" viewBox="0 0 100 90">
+        <path
+          d="M50 82C10 50 0 30 15 15C30 2 48 12 50 28C52 12 70 2 85 15C100 30 90 50 50 82Z"
+        />
+      </svg>
+    </div>
+
+    <!-- ============ HERO ============ -->
+    <section class="scene hero" id="hero">
+      <div class="hero-inner">
+        <p class="eyebrow reveal">הסיפור שלהם</p>
+        <h1 class="names reveal">
+          <span class="name-groom">כפיר</span>
+          <span class="amp">&amp;</span>
+          <span class="name-bride">רותם</span>
+        </h1>
+        <p class="hero-date reveal">2 בספטמבר 2026</p>
+        <p class="hero-almost reveal">כמעט נשואים</p>
+      </div>
+      <div class="scroll-cue" aria-hidden="true">
+        <span>גללו, והסיפור מתחיל</span>
+        <div class="mouse"><i></i></div>
+      </div>
+    </section>
+
+    <!-- ============ CH.1 - THE ARMY / TWO DEGREES ============ -->
+    <section class="scene chapter" data-chapter="1">
+      <div class="chapter-num reveal">01</div>
+      <div class="chapter-body">
+        <h2 class="reveal">שני מסלולים, אותה תקופה</h2>
+        <p class="reveal">
+          הכל התחיל כשכפיר היה בקבע ורותם אזרחית עובדת צה״ל, כל אחד בעולם
+          שלו.<br />
+          עם הזמן שניהם התחילו תואר ראשון:<br />
+          כפיר במדעי המחשב, רותם בטכנולוגיית למידה.<br />
+          אותו קמפוס. שני מסלולים. שום נקודת מפגש.
+        </p>
+        <!-- two parallel paths that will later converge (drawn by scroll) -->
+        <svg class="paths" viewBox="0 0 600 300" fill="none" aria-hidden="true">
+          <path class="path-groom" d="M60 40 C 220 40, 220 150, 300 150" />
+          <path class="path-bride" d="M60 260 C 220 260, 220 150, 300 150" />
+        </svg>
+        <div class="tags-row reveal">
+          <span class="pill">מדעי המחשב</span>
+          <span class="pill sage">טכנולוגיית למידה</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- divider: drawing line + heart -->
+    <div class="divider d-line" aria-hidden="true">
+      <span class="dl-line"></span>
+      <svg class="dl-heart" viewBox="0 0 100 90"><path d="M50 82C10 50 0 30 15 15C30 2 48 12 50 28C52 12 70 2 85 15C100 30 90 50 50 82Z"/></svg>
+      <span class="dl-line"></span>
+    </div>
+
+    <!-- ============ CH.2 - THE ELECTIVE WE WEREN'T SUPPOSED TO TAKE ============ -->
+    <section class="scene chapter" data-chapter="2">
+      <div class="chapter-num reveal">02</div>
+      <div class="chapter-body">
+        <h2 class="reveal">הקורס שכפיר לא היה אמור לקחת</h2>
+        <p class="reveal">
+          קורס בחירה אחד - ״תכנות לכולם״ - שסטודנטים למדעי המחשב בכלל לא היו
+          אמורים לקחת. כפיר הסתנן אליו בכל זאת. והמרצה קבעה חוק אחד: מתחלקים
+          לקבוצות - אבל <em>לא</em> עם מישהו מאותו התואר.
+        </p>
+        <p class="reveal punch">כך, כמעט במקרה, הם נפגשו.</p>
+      </div>
+    </section>
+
+    <!-- divider: rotating flowers -->
+    <div class="divider d-leaves" aria-hidden="true">
+      <svg class="dv-flower" viewBox="0 0 100 100">
+        <g class="petals">
+          <ellipse cx="50" cy="27" rx="10" ry="19" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(45 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(90 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(135 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(180 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(225 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(270 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(315 50 50)" />
+        </g>
+        <circle class="core" cx="50" cy="50" r="11" />
+      </svg>
+      <svg class="dv-flower" viewBox="0 0 100 100">
+        <g class="petals">
+          <ellipse cx="50" cy="27" rx="10" ry="19" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(45 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(90 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(135 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(180 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(225 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(270 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(315 50 50)" />
+        </g>
+        <circle class="core" cx="50" cy="50" r="11" />
+      </svg>
+      <svg class="dv-flower" viewBox="0 0 100 100">
+        <g class="petals">
+          <ellipse cx="50" cy="27" rx="10" ry="19" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(45 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(90 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(135 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(180 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(225 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(270 50 50)" />
+          <ellipse cx="50" cy="27" rx="10" ry="19" transform="rotate(315 50 50)" />
+        </g>
+        <circle class="core" cx="50" cy="50" r="11" />
+      </svg>
+    </div>
+
+    <!-- ============ CH.3 - THE PROJECT ============ -->
+    <section class="scene chapter" data-chapter="3">
+      <div class="chapter-num reveal">03</div>
+      <div class="chapter-body">
+        <h2 class="reveal">הפרויקט</h2>
+        <p class="reveal">
+          הם צוותו יחד לפרויקט - מטלות, לוחות זמנים, שעות ארוכות מול המסך.
+          כימיה מצוינת, ושום דבר מעבר. אחרי השעות, כל אחד חזר לעולם שלו.
+        </p>
+        <!-- photo slot -->
+        <figure class="photo-slot reveal">
+          <img src="assets/street-selfie.jpg" alt="כפיר ורותם" loading="lazy" />
+          <figcaption>ספוילר: כמה שנים אחרי</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- divider: blooming heart -->
+    <div class="divider d-bloom" aria-hidden="true">
+      <svg class="db-heart" viewBox="0 0 100 90"><path d="M50 82C10 50 0 30 15 15C30 2 48 12 50 28C52 12 70 2 85 15C100 30 90 50 50 82Z"/></svg>
+    </div>
+
+    <!-- ============ CH.4 - THE SILENCE ============ -->
+    <section class="scene chapter dim" data-chapter="4">
+      <div class="chapter-num reveal">04</div>
+      <div class="chapter-body">
+        <h2 class="reveal">ואז - שקט</h2>
+        <p class="reveal">
+          הקורס נגמר, והשיחות איתו. שנה שלמה של שקט: החיים המשיכו, כל אחד
+          בשלו. שני המסלולים שהתקרבו לרגע - התרחקו שוב.
+        </p>
+        <svg
+          class="paths diverge"
+          viewBox="0 0 600 300"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path class="path-groom" d="M300 150 C 380 150, 380 40, 540 40" />
+          <path class="path-bride" d="M300 150 C 380 150, 380 260, 540 260" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- divider: spinning star -->
+    <div class="divider d-spin" aria-hidden="true">
+      <svg class="ds-star" viewBox="0 0 100 100"><path d="M50 5 L61 39 L97 39 L68 61 L79 95 L50 74 L21 95 L32 61 L3 39 L39 39 Z"/></svg>
+    </div>
+
+    <!-- ============ CH.5 - THE LINKEDIN SPARK ============ -->
+    <section class="scene chapter" data-chapter="5">
+      <div class="chapter-num reveal">05</div>
+      <div class="chapter-body">
+        <h2 class="reveal">לייק אחד ב-LinkedIn</h2>
+        <p class="reveal">
+          כפיר השתחרר, התחיל לעבוד ב-Check Point ופרסם פוסט.<br />
+          בין כל ההתראות שקפצו, הייתה אחת קטנה ששינתה הכל:<br />
+          רותם עשתה לו לייק.<br />
+          והפעם, כפיר לא נתן להזדמנות לחלוף.
+        </p>
+        <!-- LinkedIn post mock -->
+        <div class="li-post reveal" dir="ltr" aria-hidden="true">
+          <div class="li-top">
+            <span class="li-pic"
+              ><img src="assets/kfir-headshot.jpg" alt="Kfir Adler"
+            /></span>
+            <span class="li-id">
+              <span class="li-name"
+                >Kfir Adler <span class="li-you">· You</span></span
+              >
+              <span class="li-role">Cloud Backend developer</span>
+              <span class="li-time">4yr · 🌐</span>
+            </span>
+            <span class="li-more">···</span>
+          </div>
+          <p class="li-body">
+            I'm happy to share that I'm starting a new position as Back End
+            Developer at
+            <span class="li-link">Check Point Email Security</span>!
+          </p>
+          <div class="li-media">
+            <div class="li-illus">
+              <div class="li-confetti"></div>
+              <svg class="li-cupcake" viewBox="0 0 160 170" aria-hidden="true">
+                <circle cx="80" cy="40" r="16" fill="#E23B4E" />
+                <path
+                  d="M80 24c2-8 8-12 12-16"
+                  stroke="#7a4a2b"
+                  stroke-width="3"
+                  fill="none"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M44 78c-8-2-14-10-10-20 3-9 13-11 18-6 1-10 11-16 20-11 7-4 18-1 20 8 10-2 18 6 15 16 6 3 8 12 2 18H44z"
+                  fill="#fff"
+                  stroke="#3b4a63"
+                  stroke-width="2.5"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M46 92h68l-10 62c-1 6-6 10-12 10H68c-6 0-11-4-12-10L46 92z"
+                  fill="#F6C1D0"
+                  stroke="#3b4a63"
+                  stroke-width="2.5"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M60 96l-5 66M80 96v68M100 96l5 66"
+                  stroke="#D98BA4"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+            <div class="li-caption">Starting a New Position</div>
+          </div>
+          <div class="li-stats">
+            <span class="li-react"
+              ><span class="li-r rb">👍</span
+              ><span class="li-r rg">👏</span> 56</span
+            >
+            <span class="li-comments">31 comments</span>
+          </div>
+          <div class="li-bar">
+            <span>👍 Like</span><span>💬 Comment</span><span>🔁 Repost</span
+            ><span>➤ Send</span>
+          </div>
+        </div>
+        <!-- Rotem's like notification -->
+        <div class="li-toast" dir="ltr" aria-hidden="true">
+          <span class="li-toast-ic">👍</span>
+          <span class="li-toast-txt"><b>rotem_shalom</b> liked your post</span>
+          <!-- tiny spark that ignites the moment the like lands -->
+          <span class="li-spark">
+            <svg class="ls-flame" viewBox="0 0 24 30">
+              <path
+                class="f-outer"
+                d="M12 1C8 8 4 12 4 19a8 8 0 0 0 16 0c0-7-4-11-8-18Z"
+              />
+              <path
+                class="f-inner"
+                d="M12 12c-2.2 3.4-4 5.6-4 9a4 4 0 0 0 8 0c0-3.4-1.8-5.6-4-9Z"
+              />
+            </svg>
+            <i></i><i></i><i></i>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- divider: rising dots -->
+    <div class="divider d-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+
+    <!-- ============ CH.6 - THE CONVERSATION BEGINS ============ -->
+    <section class="scene chapter" data-chapter="6">
+      <div class="chapter-num reveal">06</div>
+      <div class="chapter-body">
+        <h2 class="reveal">וכך התחילה שיחה</h2>
+        <p class="reveal">
+          אמנם לכפיר היה את המספר של רותם עוד מימי הקורס, אבל עובדה זו נשמטה
+          מראשו כששלח לה את ההודעה הראשונה - באינסטגרם. השיחה התגלגלה, וכל מה
+          שלא קרה בשנה של שקט, קרה עכשיו, בבת אחת.
+        </p>
+        <div class="ig-dm reveal" aria-hidden="true">
+          <div class="ig-head">
+            <span class="ig-back">›</span>
+            <span class="ig-avatar">ר</span>
+            <span class="ig-user"
+              ><strong>Rotem Shalom</strong><small>פעילה עכשיו</small></span
+            >
+            <span class="ig-cam">
+              <svg
+                viewBox="0 0 24 24"
+                width="22"
+                height="22"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="2" y="6" width="14" height="12" rx="3" />
+                <path d="M16 10l6-3v10l-6-3z" />
+              </svg>
+            </span>
+          </div>
+          <div class="ig-body">
+            <div class="ig-typing in">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="ig-msg in">שאלה חשובה</div>
+            <div class="ig-typing in">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="ig-msg in">
+              למה אנחנו מדברים באינסטגרם אם יש לנו את המספרים חחחח
+            </div>
+            <div class="ig-typing out">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="ig-msg out">חחח צודקת לגמרי. נעבור לוואצאפ</div>
+          </div>
+        </div>
+        <figure class="photo-slot reveal">
+          <img src="assets/walking2.jpeg" alt="כפיר ורותם" loading="lazy" />
+          <figcaption>ומאז - יחד</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- divider: drawing wave -->
+    <div class="divider d-wave" aria-hidden="true">
+      <svg viewBox="0 0 300 40"><path class="dw-path" d="M2 20 Q 40 4, 78 20 T 154 20 T 230 20 T 298 20"/></svg>
+    </div>
+
+    <!-- ============ CH.7 - CONVERGE ============ -->
+    <section class="scene chapter" data-chapter="7">
+      <div class="chapter-body center">
+        <h2 class="reveal">שני מסלולים. סוף אחד.</h2>
+        <svg
+          class="paths merge"
+          viewBox="0 0 600 320"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path class="path-groom" d="M60 40 C 260 40, 260 160, 300 160" />
+          <path class="path-bride" d="M60 280 C 260 280, 260 160, 300 160" />
+          <path class="path-together" d="M300 160 L 540 160" />
+          <circle class="merge-dot" cx="540" cy="160" r="0" />
+        </svg>
+        <div class="heart-seal reveal">
+          <svg viewBox="0 0 100 90">
+            <path
+              d="M50 82C10 50 0 30 15 15C30 2 48 12 50 28C52 12 70 2 85 15C100 30 90 50 50 82Z"
+            />
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ THE PROPOSAL ============ -->
+    <section class="scene proposal" id="proposal">
+      <div class="proposal-inner">
+        <p class="eyebrow reveal">הרגע הגדול</p>
+        <h2 class="reveal">ההצעה</h2>
+        <p class="reveal proposal-story">
+          את התכנון כפיר התחיל דווקא בימי ״עם כלביא״: שיחות חשאיות עם ההורים,
+          טבעת מוחבאת היטב - והכל בין אזעקה לאזעקה.
+        </p>
+        <p class="reveal proposal-story">
+          באחת מהן, באמצע הלילה, רותם הבחינה בהודעות מוזרות שנשלחו מהטלפון של
+          כפיר לאמא שלה. כפיר שידר עסקים כרגיל. ההצלחה הייתה חלקית.
+        </p>
+        <!-- comics strip of the proposal-planning story -->
+        <figure class="comics-slot reveal">
+          <img
+            src="assets/comics.png"
+            alt="קומיקס: איך מתכננים הצעה בין אזעקות"
+            loading="lazy"
+          />
+        </figure>
+        <p class="reveal proposal-lead">
+          ואז, גבוה מעל קו הרקיע של ניו יורק - בקומה ה-101 של מגדל ה-Edge,
+          כששתי המשפחות צופות מהצד - כפיר כרע ברך.
+        </p>
+        <figure class="proposal-media reveal">
+          <video
+            class="proposal-video"
+            poster="assets/proposal.jpeg"
+            muted
+            loop
+            playsinline
+            preload="metadata"
+          >
+            <source src="assets/proposal_web2.mp4" type="video/mp4" />
+          </video>
+        </figure>
+        <p class="reveal proposal-punch">והיא אמרה כן 💍</p>
+      </div>
+    </section>
+
+    <!-- ============ FINALE ============ -->
+    <section class="scene finale" id="finale">
+      <div class="finale-inner">
+        <figure class="finale-photo reveal">
+          <img src="assets/formal.jpg" alt="כפיר ורותם" loading="lazy" />
+        </figure>
+        <p class="eyebrow reveal">והיום</p>
+        <h2 class="finale-title reveal">הם כמעט נשואים.</h2>
+        <p class="reveal finale-note">
+          כמעט - כי אם אתם קוראים את זה, החופה עוד לא התחילה. אבל היא ממש, ממש
+          קרובה.
+        </p>
+        <div class="finale-names reveal">
+          <span>כפיר</span><span class="amp">♡</span><span>רותם</span>
+        </div>
+        <p class="finale-date reveal">2 בספטמבר 2026</p>
+      </div>
+    </section>
+
+    <!-- ============ GALLERY - OUR MOMENTS ============ -->
+    <section class="scene gallery" id="gallery">
+      <div class="gallery-inner">
+        <h2 class="reveal">הרגעים שלהם</h2>
+        <div class="grid">
+          <figure class="g-item reveal tall">
+            <img src="assets/kiss-ring.jpg" alt="כפיר ורותם" loading="lazy" />
+          </figure>
+          <figure class="g-item reveal">
+            <img src="assets/walking.jpg" alt="כפיר ורותם" loading="lazy" />
+          </figure>
+          <figure class="g-item reveal">
+            <img src="assets/playful.jpg" alt="כפיר ורותם" loading="lazy" />
+          </figure>
+          <figure class="g-item reveal tall">
+            <img
+              src="assets/niagara.jpg"
+              alt="כפיר ורותם בניאגרה"
+              loading="lazy"
+            />
+          </figure>
+          <figure class="g-item reveal tall">
+            <img
+              src="assets/prague.jpg"
+              alt="כפיר ורותם בפראג"
+              loading="lazy"
+            />
+          </figure>
+          <figure class="g-item reveal tall">
+            <img
+              src="assets/proposal-after.jpeg"
+              alt="רגע אחרי ההצעה - הטבעת"
+              loading="lazy"
+            />
+          </figure>
+          <figure class="g-item reveal">
+            <img src="assets/noses.jpg" alt="כפיר ורותם" loading="lazy" />
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- GSAP + ScrollTrigger over HTTPS, pinned versions with Subresource Integrity -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+      integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+      integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="script.js?v=12"></script>
+  </body>
+</html>
