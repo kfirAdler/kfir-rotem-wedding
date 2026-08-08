@@ -382,7 +382,7 @@ figcaption {
   flex: none;
   align-items: center;
   gap: var(--ribbon-gap);
-  padding-inline-end: var(--ribbon-gap);
+  padding-inline: calc(var(--ribbon-gap) / 2);
 }
 .photo-ribbon__item {
   box-sizing: content-box;
@@ -600,7 +600,7 @@ figcaption {
     border-width: 3px;
     border-radius: 14px;
   }
-  .photo-ribbon__set { --ribbon-gap: 9px; }
+  .photo-ribbon__set { --ribbon-gap: 10px; }
   .photo-ribbon__toggle {
     inset-block-start: 26px;
     inset-inline-end: max(10px, env(safe-area-inset-left));
